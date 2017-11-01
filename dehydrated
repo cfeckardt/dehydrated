@@ -741,6 +741,12 @@ sign_domain() {
   fi
 
   privkey="privkey.pem"
+
+  if [[ -f "${BASEDIR}/pinned.pem" ]] && [[ ! -f "${certdir}/privkey.pem" ]]; then
+    echo " + Copying pinned private key to certdir ..."
+    cp "${BASEDIR}/pinned.pem" "${certdir}/privkey.pem"
+  fi
+
   # generate a new private key if we need or want one
   if [[ ! -r "${certdir}/privkey.pem" ]] || [[ "${PRIVATE_KEY_RENEW}" = "yes" ]]; then
     echo " + Generating private key..."
